@@ -10,8 +10,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * @author yifan
- *
+ * https://www.jianshu.com/p/18b6ec524d4d
+ * // 注解开启Spring Security的功能
+ * @EnableWebSecurity
+ * // 开启自动配置
+ * @EnableAutoConfiguration
+ * // 启用了一个Oauth2 客户端配置
+ * @EnableOAuth2Client
  */
+
 @Configuration
 @EnableOAuth2Sso
 public class UiSecurityConfig extends WebSecurityConfigurerAdapter{
