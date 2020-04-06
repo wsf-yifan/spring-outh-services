@@ -5,11 +5,19 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 @EnableWebMvc
 public class UiWebConfig  implements WebMvcConfigurer {
+
+    // 不加一直报错：Error creating bean with name 'scopedTarget.oauth2ClientContext':
+    // Scope 'session' is not active
+    @Bean
+    public RequestContextListener requestContextListener() {
+        return new RequestContextListener();
+    }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -34,6 +42,4 @@ public class UiWebConfig  implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/**")
             .addResourceLocations("/resources/");
     }
-
-
 }
