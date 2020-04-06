@@ -1,0 +1,22 @@
+server:
+  port: 7777
+  servlet.context-path: /uauth
+
+logging.level:
+  root: DEBUG
+  com.bestaone.aiwan: DEBUG
+
+spring.datasource:
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/webauth?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+  username: root
+  password: root
+
+spring.redis:
+  host: 127.0.0.1
+  port: 6379
+  database: 11
+  password:
+
+spring.session.store-type: none
+spring.devtools.restart.enabled: true
