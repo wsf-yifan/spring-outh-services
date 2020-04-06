@@ -15,7 +15,7 @@ security:
       accessTokenUri: http://localhost:8081/auth/oauth/token
       userAuthorizationUri: http://localhost:8081/auth/oauth/authorize
     resource:
-      userInfoUri: http://localhost:8081/auth/rest/hello/principal
+      userInfoUri: http://localhost:8081/auth/user/me
 
 #security:
 #  basic:
