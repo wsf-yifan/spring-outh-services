@@ -62,6 +62,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         ; // 1 hour
     }
 
+    // 暂时不知道用来干嘛 20200407
     @Autowired
     private UserApprovalHandler userApprovalHandler;
 
@@ -76,7 +77,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .userApprovalHandler(userApprovalHandler)
                 // 存储token
              .tokenStore(tokenStore)
+                // 不使用此将无法刷新token
                .userDetailsService(userDetailsService);
-
     }
 }
