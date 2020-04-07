@@ -31,6 +31,6 @@ public class UiSecurityConfig extends WebSecurityConfigurerAdapter{
 			.permitAll()
 			.anyRequest()
 			.authenticated();
-	}
+}
 
 }
