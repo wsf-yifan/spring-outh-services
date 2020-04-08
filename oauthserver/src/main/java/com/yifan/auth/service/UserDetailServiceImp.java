@@ -31,6 +31,6 @@ public class UserDetailServiceImp implements UserDetailsService {
         Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        return new User("wsf",passwordEncoder.encode("123"),authorities);
+        return new User(username,passwordEncoder.encode("123"),authorities);
     }
 }

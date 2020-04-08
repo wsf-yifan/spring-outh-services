@@ -5,6 +5,18 @@ server:
     session:
       cookie:
         name: SPRINGSESSION
+#security:
+#  basic:
+#    enabled: false
+#  oauth2:
+#    client:
+#      clientId: djdemoapi
+#      clientSecret: 123456
+#      accessTokenUri: http://localhost:8081/auth/oauth/token
+#      userAuthorizationUri: http://localhost:8081/auth/oauth/authorize
+#    resource:
+#      userInfoUri: http://localhost:8081/auth/user/me
+
 security:
   basic:
     enabled: false
@@ -12,22 +24,10 @@ security:
     client:
       clientId: djdemoapi
       clientSecret: 123456
-      accessTokenUri: http://localhost:8081/auth/oauth/token
-      userAuthorizationUri: http://localhost:8081/auth/oauth/authorize
+      accessTokenUri: http://localhost:8181/webauth/oauth/token
+      userAuthorizationUri: http://localhost:8181/webauth/oauth/authorize
     resource:
-      userInfoUri: http://localhost:8081/auth/user/me
-
-#security:
-#  basic:
-#    enabled: false
-#  oauth2:
-#    client:
-#      clientId: SampleClientId
-#      clientSecret: secret
-#      accessTokenUri: http://localhost:8081/auth/oauth/token
-#      userAuthorizationUri: http://localhost:8081/auth/oauth/authorize
-#    resource:
-#      userInfoUri: http://localhost:8081/auth/user/me
+      userInfoUri: http://localhost:8181/webauth/api/user/profile
 spring:
   thymeleaf:
     cache: false

@@ -1,5 +1,7 @@
 package com.yifan.auth.config;
 
+import com.yifan.auth.filter.JwtRequestFilter;
+import com.yifan.auth.service.UserDetailServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -20,6 +23,7 @@ import org.springframework.security.oauth2.provider.approval.UserApprovalHandler
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @Order(1)
@@ -31,9 +35,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+
     @Bean
     public TokenStore tokenStore() {
         return new InMemoryTokenStore();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return new UserDetailServiceImp();
     }
 
     @Bean
@@ -55,19 +67,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             .and()
             .formLogin()
-            .permitAll()
-                .and()
-                .oauth2ResourceServer()
-                .jwt();
+            .permitAll();
+//                .and()
+//                .oauth2ResourceServer()
+//                .jwt();
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 //            .and().csrf().disable();
     } // @formatter:on
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception { // @formatter:off
-        auth.inMemoryAuthentication()
-            .withUser("wsf")
-            .password(passwordEncoder().encode("123"))
-            .roles("USER");
+//        auth.inMemoryAuthentication()
+//            .withUser("wsf")
+//            .password(passwordEncoder().encode("123"))
+//            .roles("USER");
+        auth.userDetailsService(userDetailsService());
     } // @formatter:on
 
     @Bean
@@ -75,26 +89,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    @Autowired
-    public ApprovalStore approvalStore(TokenStore tokenStore) {
-        TokenApprovalStore store = new TokenApprovalStore();
-        store.setTokenStore(tokenStore);
-
-        return store;
-    }
-
-    @Autowired
-    private ClientDetailsService clientDetailsService;
-
-    @Bean
-    @Autowired
-    public UserApprovalHandler userApprovalHandler(TokenStore tokenStore) {
-        TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
-        handler.setTokenStore(tokenStore);
-        handler.setRequestFactory(new DefaultOAuth2RequestFactory(this.clientDetailsService));
-        handler.setClientDetailsService(this.clientDetailsService);
-
-        return handler;
-    }
+//    @Bean
+//    @Autowired
+//    public ApprovalStore approvalStore(TokenStore tokenStore) {
+//        TokenApprovalStore store = new TokenApprovalStore();
+//        store.setTokenStore(tokenStore);
+//
+//        return store;
+//    }
+//
+//    @Autowired
+//    private ClientDetailsService clientDetailsService;
+//
+//    @Bean
+//    @Autowired
+//    public UserApprovalHandler userApprovalHandler(TokenStore tokenStore) {
+//        TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
+//        handler.setTokenStore(tokenStore);
+//        handler.setRequestFactory(new DefaultOAuth2RequestFactory(this.clientDetailsService));
+//        handler.setClientDetailsService(this.clientDetailsService);
+//
+//        return handler;
+//    }
 }
